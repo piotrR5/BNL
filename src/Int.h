@@ -15,6 +15,9 @@ class Int{
     public:
 
     void reverse();
+    void _add(string& s1, string s2);
+    void pow2(size_t power, std::string& num);
+    string getDec();
     
     //debug
     void showNum();
@@ -47,6 +50,7 @@ class Int{
 
     Int();
     Int(string n, int base);    //base 2 and 10 atm.
+    Int(string n);              //just base 10;
     Int(const Int& n);
     Int(int64_t n);
     Int(const vector<bool>& n);

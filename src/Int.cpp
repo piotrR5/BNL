@@ -100,6 +100,22 @@ Int::Int(int64_t n){
     if(sign)reverse();
 }
 
+bool devide2(string& n){
+    string ret(n.size(),'0');
+    bool returned = (n[n.size()-1]-48)%2;
+    for(size_t i=1; i<n.size(); i++)
+    {
+        ret[i]=((n[i-1]-48)*10+n[i]-48)/2+48;
+        n[i]=(n[i]-48)%2+48;
+    }
+    if(n.size()==1){
+        n[0]=(n[0]-48)/2+48;
+        return returned;
+    }
+    n=ret;
+    return returned;
+}
+
 Int::Int(string n, int base){
     if(base==2){
         for(auto i:n){
@@ -110,6 +126,28 @@ Int::Int(string n, int base){
             num.insert(num.begin(), 0);
         }
     }
+
+    if(base==10){
+        bool sign=n[0]=='-';
+        if(sign) n.erase(n.begin(),n.begin()+1);
+        vector <bool> b;
+        //std::cout<<"CHUJ"<<decimal.size()<<std::endl;
+
+        while(n!=string(n.size(),'0'))
+        {
+            //std::cout<<decimal<<std::endl;
+            b.emplace(b.begin(),devide2(n));  
+            //for(auto i:b)std::cout<<i<<std::endl; 
+        }
+        num=b;
+        resize(BNL_INT_MAX);
+        if(sign)reverse();
+        
+    }
+}
+
+Int::Int(string n){
+    *this=Int(n,10);
 }
 
 Int::Int(const vector<bool>& n){
@@ -157,3 +195,72 @@ void Int::reverse(){
     *this=*this+temp;
     
 };
+
+void Int::_add(string& s1, string s2){
+    uint8_t offset='0';
+    for(auto& i:s1)i-=offset;
+    for(auto& i:s2)i-=offset;
+
+    uint8_t temp=0;
+    if(s1.size()!=s2.size()){
+        if(s1.size()<s2.size()){
+            while(s1.size()<s2.size()){
+                s1.insert(0,1,0);
+            }
+        }
+        else{
+            while(s1.size()>s2.size()){
+                s2.insert(0,1,0);
+            }
+        }
+    }
+    
+    size_t index=s1.length()-1;
+
+    for(;index>=0;index--){
+        uint8_t foo=s1[index]+s2[index]+temp;
+
+        s1[index]=foo%10;
+        temp=foo/10;
+
+        if(index==0 && temp!=0){
+            s1.insert(0,1,temp);
+            for(auto& i:s1)i+=offset;
+            return;
+        }else if(index==0){
+            for(auto& i:s1)i+=offset;
+            return;
+        }
+    }
+
+    for(auto& i:s1)i+=offset;
+}
+
+void Int::pow2(size_t power, std::string& num){
+    while(power--){
+        _add(num,num);
+    }
+}
+
+string Int::getDec(){
+    string returned="0";
+    string powered="1";
+
+    size_t indexOfLastPower=num.size()-1;
+    bool sign=(num[0]?1:0);
+    if(sign)reverse();
+    for(size_t i=num.size()-1;i>0;i--){
+        if(num[i]){
+            pow2(indexOfLastPower-i, powered);
+            _add(returned, powered);
+            indexOfLastPower=i;
+            
+        }
+    }
+
+    if(sign){
+        returned.insert(0,1,'-');
+    }
+
+    return returned;
+}
