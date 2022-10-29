@@ -66,6 +66,37 @@ const Int& Int::operator-(const Int& n){
 
 */
 
+bool operator==(const Int& lhs, const Int& rhs){
+    for(int i=0;i<BNL_INT_MAX;i++){
+        if(lhs.num[i] != rhs.num[i])return false;
+    }
+    return true;
+}
+
+bool operator!=(const Int& lhs, const Int& rhs){
+    return !(lhs==rhs);
+}
+
+bool operator<(const Int& lhs, const Int& rhs){
+    for(int i=0;i<BNL_INT_MAX;i++){
+        if(lhs.num[i] > rhs.num[i])return false;
+        else if(lhs.num[i]<rhs.num[i])return true;
+    }
+    return false;
+}
+
+bool operator>(const Int& lhs, const Int& rhs){
+    return (rhs<lhs);
+}
+
+bool operator<=(const Int& lhs, const Int& rhs){
+    return !(rhs<lhs);
+}
+
+bool operator>=(const Int& lhs, const Int& rhs){
+    return !(rhs>lhs);
+}
+
 
 
 
