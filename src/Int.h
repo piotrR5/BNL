@@ -18,6 +18,10 @@ class Int{
     void _add(string& s1, string s2);
     void pow2(size_t power, std::string& num);
     string getDec();
+    void RSA();
+    void RSC();
+    void LSA();
+    void LSC();
     
     //debug
     void showNum();

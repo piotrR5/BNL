@@ -247,7 +247,7 @@ string Int::getDec(){
     string powered="1";
 
     size_t indexOfLastPower=num.size()-1;
-    bool sign=(num[0]?1:0);
+    bool sign=num[0];
     if(sign)reverse();
     for(size_t i=num.size()-1;i>0;i--){
         if(num[i]){
@@ -263,4 +263,14 @@ string Int::getDec(){
     }
 
     return returned;
+}
+
+void Int::RSA(){
+    num.pop_back();
+    num.insert(num.begin(), num[0]);
+}
+void Int::RSC(){
+    bool temp=num[0];
+    num.pop_back();
+    num.insert(num.begin(), temp);
 }
