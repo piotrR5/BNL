@@ -13,13 +13,6 @@ class Int{
     vector<bool>DecToBin();
     
     public:
-
-    
-    
-    
-    
-
-
     //Int& operator=(const Int& n);
     //Int& operator=(Int&& n) noexcept;
 
@@ -35,8 +28,10 @@ class Int{
     const Int& operator/(const Int& n);
 
     Int& operator++();
+    Int operator++(int);
     Int& operator+=(const Int& n);
     Int& operator--();
+    Int operator--(int);
     Int& operator-=(const Int& n);
     Int& operator*=(const Int& n);
     Int& operator/=(const Int& n);
@@ -47,7 +42,7 @@ class Int{
                 LOPERATORS
 
     */
-    //operator bool() const;
+    operator bool() const;
     friend bool operator==(const Int& lhs, const Int& rhs);
     friend bool operator!=(const Int& lhs, const Int& rhs);
     friend bool operator<(const Int& lhs, const Int& rhs);

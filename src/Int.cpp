@@ -59,6 +59,39 @@ const Int& Int::operator-(const Int& n){
 
 
 
+Int& Int::operator++(){
+    *this=*this+Int(1);
+    return *this;
+}
+
+Int Int::operator++(int){
+    Int temp=*this;
+    ++*this;
+    return temp;
+}
+
+Int& Int::operator+=(const Int& n){
+    Int temp(n);
+    *this=temp+*this;
+    return *this;
+}
+
+Int& Int::operator--(){
+    *this=*this-Int(1);
+    return *this;
+}
+
+Int Int::operator--(int){
+    Int temp=*this;
+    --*this;
+    return temp;
+}
+
+Int& Int::operator-=(const Int& n){
+    Int temp(n);
+    *this=*this-temp;
+    return *this;
+}
 
 /*
 
@@ -78,6 +111,8 @@ bool operator!=(const Int& lhs, const Int& rhs){
 }
 
 bool operator<(const Int& lhs, const Int& rhs){
+    if(lhs.num[0] && !rhs.num[0])return true;
+    else if(!lhs.num[0] && rhs.num[0])return false;
     for(int i=0;i<BNL_INT_MAX;i++){
         if(lhs.num[i] > rhs.num[i])return false;
         else if(lhs.num[i]<rhs.num[i])return true;
@@ -97,9 +132,9 @@ bool operator>=(const Int& lhs, const Int& rhs){
     return !(rhs>lhs);
 }
 
-
-
-
+Int::operator bool() const{
+    return *this!=Int(0);
+}
 
 /*
 
@@ -159,21 +194,21 @@ Int::Int(string n, int base){
     }
 
     if(base==10){
-        bool sign=n[0]=='-';
+        bool sign=false;
+        if(n[0]=='-')sign = true;
         if(sign) n.erase(n.begin(),n.begin()+1);
         vector <bool> b;
-        //std::cout<<"CHUJ"<<decimal.size()<<std::endl;
 
         while(n!=string(n.size(),'0'))
         {
-            //std::cout<<decimal<<std::endl;
             b.emplace(b.begin(),devide2(n));  
-            //for(auto i:b)std::cout<<i<<std::endl; 
         }
+        
+        if(sign)b.emplace(b.begin(), 1);
+        else b.emplace(b.begin(), 0);
         num=b;
         resize(BNL_INT_MAX);
         if(sign)reverse();
-        
     }
 }
 
@@ -300,6 +335,7 @@ void Int::RSA(){
     num.pop_back();
     num.insert(num.begin(), num[0]);
 }
+
 void Int::RSC(){
     bool temp=num[0];
     num.pop_back();
